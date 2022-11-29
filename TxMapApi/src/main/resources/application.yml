@@ -1,0 +1,52 @@
+server:
+  port: 8083
+tengxun:
+  map:
+    key: IM4BZ-2466R-ZIZWM-WQD5E-IMFZT-CLBG3
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://182.92.114.242:3306/tb_test?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&zeroDateTimeBehavior=CONVERT_TO_NULL&allowMultiQueries=true&useSSL=false
+    username: root
+    password: shujuku129!
+    druid:
+      # 连接池的配置信息
+      # 初始化大小，最小，最大
+      initial-size: 5
+      min-idle: 5
+      maxActive: 20
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      filters: stat,slf4j
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      # 配置DruidStatFilter
+      web-stat-filter:
+        enabled: true
+        url-pattern: "/*"
+        exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*"
+      # 配置DruidStatViewServlet
+      stat-view-servlet:
+        reset-enable: false
+        # druid登录的账户名
+        login-username: admin
+        # druid登录的密码
+        login-password: 123
+        # 不要写2个*号！要1个！
+        url-pattern: "/druid/*"
+        #这里配true才能访问监控页面！
+        enabled: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+#mybatis配置
+mybatis:
+  mapper-locations: classpath*:mybatis/*.xml

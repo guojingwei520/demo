@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.larva.demo.mapper.RedisToMysql">
+    <insert id="saveIp" parameterType="map">
+        insert into tb_ipinfo(
+            ip,
+            phone
+        )select a.ip as ip,
+            a.phone as phone
+        from
+        (
+           <include refid="com.larva.demo.mapper.RedisToMysql.ipInfos"/>
+        ) a
+        where a.ip is not null and not exists(
+           select 1 from tb_ipinfo c where c.ip = a.ip
+        )
+    </insert>
+    <insert id="insertip" parameterType="map">
+        insert into tb_ipinfo(
+            ip,
+            phone
+        )select
+            #{ip},
+            #{phone}
+        from dual
+        where #{ip} is not null and not exists
+        (select 1 from tb_ipinfo c force index(suoyin_ip) where c.ip=#{ip});
+    </insert>
+    <sql id="ipInfos">
+        <foreach collection="ips" item="ip" index="index" separator="union">
+            <include refid="com.larva.demo.mapper.RedisToMysql.ipsql"/>
+        </foreach>
+    </sql>
+    <sql id="ipsql">
+        select
+           #{ip.ip} as ip,
+           #{ip.phone} as phone
+        from dual
+    </sql>
+    <delete id="clearIp">
+        delete from tb_ipinfo where
+    </delete>
+</mapper>

@@ -1,0 +1,6 @@
+{
+  "timestamp": "2022-10-25T03:59:23.210+00:00",
+  "status": 415,
+  "error": "Unsupported Media Type",
+  "path": "/notoken/insertip"
+}

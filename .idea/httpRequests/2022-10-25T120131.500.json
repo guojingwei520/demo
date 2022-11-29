@@ -1,0 +1,6 @@
+{
+  "timestamp": "2022-10-25T04:01:31.410+00:00",
+  "status": 500,
+  "error": "Internal Server Error",
+  "path": "/notoken/insertip"
+}

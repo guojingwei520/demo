@@ -1,0 +1,130 @@
+POST http://localhost:8080/v1/notoken/insertip
+Content-Type: application/json
+
+{"ip":"127.1.1.5"}
+
+<> 2022-10-25T120355.200.json
+
+###
+
+POST http://localhost:8080/notoken/insertip
+Content-Type: application/json
+
+{"ip":"127.1.1.5"}
+
+<> 2022-10-25T120226.500.json
+
+###
+
+POST http://localhost:8080/notoken/insertip
+Content-Type: application/json
+
+{"ip":"127.1.1.5"}
+
+<> 2022-10-25T120212.500.json
+
+###
+
+POST http://localhost:8080/notoken/insertip
+Content-Type: application/json
+
+{"ip":"127.0.0.5"}
+
+<> 2022-10-25T120131.500.json
+
+###
+
+POST http://localhost:8080/notoken/insertip
+Content-Type: application/json
+Connection: alive
+
+{"ip":"127.0.0.5"}
+
+<> 2022-10-25T120048.500.json
+
+###
+
+POST http://localhost:8080/notoken/insertip
+Content-Type: application/json
+
+{"ip":"127.0.0.5"}
+
+<> 2022-10-25T120007.500.json
+
+###
+
+POST http://localhost:8080/notoken/insertip
+Content-Type: application/json
+
+--null
+
+
+< F:\Java\ideaiu\IntelliJ IDEA 2018.2.3\bin\{"ip":"127.0.0.5"}
+--null--
+
+###
+
+POST http://localhost:8080/notoken/insertip
+Content-Type: application/json
+
+{"ip":"127.0.0.5"}
+
+<> 2022-10-25T115941.500.json
+
+###
+
+POST http://localhost:8080/notoken/insertip
+
+{"ip":"127.0.0.5"}
+
+<> 2022-10-25T115923.415.json
+
+###
+
+POST http://localhost:8080/notoken/insertip
+Content-Type: application/json
+
+{"ip":"127.0.0.5"}
+
+<> 2022-10-25T115909.500.json
+
+###
+
+POST http://localhost:8080/notoken/insertip
+
+{"ip":"127.0.0.5"}
+
+<> 2022-10-25T115750.415.json
+
+###
+
+POST http://localhost:8080/notoken/insertip
+Accept: */*
+Cache-Control: no-cache
+
+{"ip":"127.0.0.5"}
+
+<> 2022-10-25T115712.415.json
+
+###
+
+POST http://localhost:8080/notoken/insertip
+Accept: */*
+Cache-Control: no-cache
+
+{"ip":"127.0.0.5"}
+
+<> 2022-10-25T115641.415.json
+
+###
+
+POST http://localhost:8080/notoken/insertip
+Accept: */*
+Cache-Control: no-cache
+
+{"ip":"127.0.0.5"}
+
+<> 2022-10-25T115628.415.json
+
+###
+

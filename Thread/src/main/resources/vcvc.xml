@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gz.construct.minself.mapper.RegUserMapper">
+    <resultMap id="baseMap" type="map">
+        <result property="userid" column="userid"/>
+        <result property="openid" column="openid"/>
+        <result property="cityid" column="cityid"/>
+        <result property="citycode" column="citycode"/>
+        <result property="prov" column="prov"/>
+        <result property="city" column="city"/>
+        <result property="mobile" column="mobile"/>
+        <result property="nickname" column="nickname"/>
+        <result property="name" column="name"/>
+        <result property="sex" column="sex"/>
+        <result property="url" column="avatar"/>
+        <result property="sign" column="sign"/>
+        <result property="isrealname" column="isrealname"/>
+        <result property="limited" column="limited"/>
+    </resultMap>
+    <select id="getWxUser" parameterType="map" resultMap="baseMap">
+        select ifnull(a.userid,0) as userid,
+        ifnull(a.openid, '') as openid,
+        ifnull(a.cityid, '') as cityid,
+        ifnull(a.mobile, '') as mobile,
+        ifnull(a.nickname, '') as nickname,
+        ifnull(a.name, '') as name,
+        ifnull(a.sex, '') as sex,
+        ifnull(a.avatar, '') as avatar,
+        ifnull(a.sign, '') as sign,
+        if(a.isrealname='A003001','1','0') as isrealname,
+        ifnull(d.name,'') as prov,
+        ifnull(c.name,'') as city,
+        ifnull(c.citycode,'') as citycode,
+        if(a.isactive='A001001',0,1) as limited
+        from gz_reguser a
+        left join gz_city c on c.cityid=a.cityid
+        left join gz_city d on d.citycode=concat(c.provcode,'0000')
+        where 1=1
+        <if test="userid!=null">
+            and a.userid=#{userid}
+        </if>
+        <if test="openid!=null">
+            and a.openid=#{openid}
+        </if>;
+    </select>
+
+    <resultMap id="monthqsMap" type="map">
+        <result property="selfid" column="selfid" />
+        <result property="limits" column="limits" />
+        <result property="querytimes" column="querytimes" />
+        <result property="lefttimes" column="lefttimes" />
+    </resultMap>
+
+    <sql id="monthqsSql">
+        drop temporary table if exists ${tmp};
+        create temporary table ${tmp}
+  	  <![CDATA[
+        select a.selfid,
+               a.limits,
+               a.querytimes,
+               if(a.limits=-1,-1,if(a.limits-a.querytimes<0, 0, a.limits-a.querytimes)) as lefttimes
+        from(
+                select a.selfid, ifnull(a.limits,-1) as limits, count(b.bselfid) as querytimes
+                from gz_biz_self a
+                left join gz_biz_self_query b force index(nm_self_query_query1) on b.selfid=a.selfid and b.userid=#{userid} and b.isactive='A001001' and (b.querytime>=#{begintime} and b.querytime<=#{endtime})
+                where a.selfid=#{selfid}
+                group by a.selfid, a.limits
+                order by null
+            ) a;
+        ]]>
+    </sql>
+
+    <select id="getUserMonthQuerys" parameterType="map" resultMap="monthqsMap">
+        <include refid="com.gz.job.self.mapper.QueryMapper.monthqsSql">
+            <property name="tmp" value="gz_temp_self_monthquerys"/>
+        </include>
+        select *
+        from gz_temp_self_monthquerys;
+    </select>
+
+    <resultMap id="selfMap" type="map">
+        <id property="selfid" column="selfid" />
+        <result property="funid" column="funid" />
+        <result property="code" column="code" />
+        <result property="name" column="name" />
+        <result property="icon" column="icon" />
+        <result property="useness" column="useness" />
+        <result property="period" column="period" />
+        <result property="limits" column="limits" />
+        <result property="selftype" column="selftype" />
+        <result property="descript" column="descript"/>
+    </resultMap>
+    <select id="getAllSelfs" parameterType="map" resultMap="selfMap">
+        select a.selfid,
+               ifnull(a.funid,'') as funid,
+               ifnull(a.code,'') as code,
+               ifnull(a.name,'') as name,
+               ifnull(a.icon,'') as icon,
+               ifnull(a.useness,'') as useness,
+               ifnull(a.period,'') as period,
+               ifnull(a.limits,'') as limits,
+               ifnull(a.selftype,'') as selftype,
+               ifnull(a.descript,'') as descript
+        from gz_biz_self a
+        where a.isactive='A001001'
+        order by a.sequence
+    </select>
+</mapper>
